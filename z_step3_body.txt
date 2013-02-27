@@ -1,0 +1,7 @@
+			<br>
+			<p>
+				<a id="picture_button" href="#" data-role="button">Take photo</a>
+			</p>
+			<p>
+				<img id="picture" width="192" height="320" />
+			</p>

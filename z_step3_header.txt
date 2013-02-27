@@ -1,0 +1,37 @@
+	<script src="cordova-2.4.0.js" type="text/javascript"></script>
+	<script>
+		var deviceReadyDeferred = $.Deferred();
+		var jqmReadyDeferred = $.Deferred();
+		
+		document.addEventListener('deviceReady', deviceReady, false);
+		
+		function deviceReady() {
+			deviceReadyDeferred.resolve();
+		}
+		
+		$(document).one('mobileinit', function () {
+			jqmReadyDeferred.resolve();
+		});
+		
+		$.when(deviceReadyDeferred, jqmReadyDeferred).then(function(e) {
+			$('#picture_button').click(function(e) {
+				$.mobile.loading('show');
+				
+				navigator.camera.getPicture(onSuccess, onFail, {
+					destinationType: Camera.DestinationType.DATA_URL,
+					correctOrientation: true
+				});
+
+				function onSuccess(imageData) {
+					console.log(imageData);
+					$('#picture').attr('src', 'data:image/jpeg;base64,' + imageData);
+					$.mobile.loading('hide');
+				}
+				
+				function onFail(message) {
+					$.mobile.loading('hide');
+				    alert('Failed because: ' + message);
+				}
+			});
+		});
+	</script>
